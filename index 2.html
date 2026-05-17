@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoilLife — Farming Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --green:     #1e5c38;
+  --green-mid: #2e7d4f;
+  --green-lt:  #e8f5ee;
+  --gold:      #c8920a;
+  --gold-lt:   #fef6e4;
+  --white:     #ffffff;
+  --ink:       #1a1a1a;
+  --mid:       #555;
+  --light:     #999;
+  --border:    #e4ddd4;
+  --sand:      #faf6f0;
+  --r:         14px;
+}
+
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━
+   1. NAV
+━━━━━━━━━━━━━━━━━━━━ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+}
+.brand {
+  display: flex; align-items: center; gap: 9px;
+}
+.brand-mark {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.brand-name {
+  font-family: 'Lora', serif;
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--green);
+}
+.nav-right { display: flex; gap: 8px; align-items: center; }
+.nav-lang {
+  display: flex; align-items: center; gap: 5px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 6px 11px; font-size: 0.8rem; font-weight: 500;
+  color: var(--mid); cursor: pointer; background: var(--white);
+  font-family: 'Inter', sans-serif;
+}
+.nav-instructor {
+  background: var(--green-lt); color: var(--green);
+  border: 1.5px solid #b8ddc8; border-radius: 8px;
+  padding: 6px 13px; font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━
+   2. HERO
+━━━━━━━━━━━━━━━━━━━━ */
+.hero {
+  background: var(--sand);
+  border-bottom: 1.5px solid var(--border);
+  padding: 28px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--green-lt); color: var(--green);
+  border-radius: 50px; padding: 4px 12px;
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.8px; text-transform: uppercase;
+  margin-bottom: 11px;
+}
+.hero-title {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.45rem, 4.5vw, 1.9rem);
+  color: var(--green); font-weight: 700;
+  line-height: 1.22; margin-bottom: 8px;
+}
+.hero-sub {
+  font-size: 0.82rem; color: var(--mid);
+  line-height: 1.6; margin-bottom: 18px;
+  font-weight: 400;
+}
+.hero-btns { display: flex; flex-wrap: wrap; gap: 7px; }
+.hbtn {
+  display: flex; align-items: center; gap: 5px;
+  border-radius: 50px; padding: 8px 14px;
+  font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; border: none;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.hbtn:active { transform: scale(0.95); }
+.hbtn-explore { background: var(--green); color: white; }
+.hbtn-listen  { background: white; color: var(--green); border: 1.5px solid var(--green); }
+.hbtn-watch   { background: var(--gold); color: white; }
+
+/* Voice box */
+.voice-box {
+  background: white;
+  border: 1.5px dashed #b0c8ba;
+  border-radius: var(--r);
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.voice-box:hover { border-color: var(--green); background: var(--green-lt); }
+.voice-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.mic {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05rem;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(200,146,10,.5); }
+  50%      { box-shadow: 0 0 0 9px rgba(200,146,10,0); }
+}
+.voice-label { font-size: 0.86rem; font-weight: 600; color: var(--ink); }
+.voice-hint  { font-size: 0.7rem; color: var(--light); margin-top: 2px; }
+.voice-langs { display: flex; gap: 5px; flex-wrap: wrap; }
+.vlang {
+  background: var(--sand); color: var(--mid);
+  border-radius: 50px; padding: 3px 9px;
+  font-size: 0.66rem; font-weight: 600;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━
+   3. PROBLEM CARDS
+━━━━━━━━━━━━━━━━━━━━ */
+.problems {
+  background: white;
+  padding: 24px 20px 28px;
+}
+.sec-row {
+  display: flex; align-items: flex-end;
+  justify-content: space-between; margin-bottom: 16px;
+}
+.sec-title {
+  font-family: 'Lora', serif;
+  font-size: 1.15rem; font-weight: 700; color: var(--ink);
+}
+.sec-sub  { font-size: 0.75rem; color: var(--light); margin-top: 3px; }
+.sec-link { font-size: 0.78rem; color: var(--green); font-weight: 600; cursor: pointer; }
+
+.prob-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.prob-card {
+  border-radius: var(--r);
+  padding: 18px 14px 14px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: transform 0.18s, box-shadow 0.18s;
+  border: 1.5px solid transparent;
+}
+.prob-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.1);
+}
+.prob-card:active { transform: scale(0.97); }
+.p1 { background: #fff3e0; }
+.p2 { background: #fdecea; }
+.p3 { background: #e8f0fe; }
+.p4 { background: #faf3e0; }
+.p5 { background: #fef6e4; }
+.p6 { background: var(--green-lt); }
+
+.prob-icon { font-size: 2.3rem; display: block; margin-bottom: 10px; line-height: 1; }
+.prob-name { font-size: 0.88rem; font-weight: 700; color: var(--ink); }
+.prob-desc { font-size: 0.7rem; color: var(--mid); margin-top: 3px; line-height: 1.4; }
+.prob-go {
+  position: absolute; top: 13px; right: 13px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(255,255,255,.7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: var(--mid);
+  transition: background 0.18s, color 0.18s;
+}
+.prob-card:hover .prob-go { background: var(--green); color: white; }
+
+/* ━━━━━━━━━━━━━━━━━━━━
+   4. VIDEO GUIDES
+━━━━━━━━━━━━━━━━━━━━ */
+.divider { height: 8px; background: var(--sand); border-top: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); }
+
+.videos {
+  background: white;
+  padding: 24px 0 28px;
+}
+.videos .sec-row { padding: 0 20px; }
+
+.vid-scroll {
+  display: flex; gap: 12px;
+  padding: 0 20px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.vid-scroll::-webkit-scrollbar { display: none; }
+
+.vid-card {
+  flex-shrink: 0; width: 200px;
+  border-radius: var(--r); overflow: hidden;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s;
+  background: white;
+}
+.vid-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.1);
+}
+.vid-thumb {
+  height: 124px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; overflow: hidden;
+}
+.vt1 { background: linear-gradient(135deg,#1e4d28,#3a9158); }
+.vt2 { background: linear-gradient(135deg,#5c3010,#a0622a); }
+.vt3 { background: linear-gradient(135deg,#0d3550,#1a6898); }
+.vt4 { background: linear-gradient(135deg,#3a2d10,#7a6020); }
+.vt5 { background: linear-gradient(135deg,#2d1050,#6030a0); }
+.vt6 { background: linear-gradient(135deg,#103828,#208850); }
+
+.vid-play {
+  position: absolute;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,.92);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; padding-left: 3px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.3);
+  transition: background 0.18s, transform 0.18s;
+}
+.vid-card:hover .vid-play { background: var(--gold); transform: scale(1.1); }
+
+.vid-dur {
+  position: absolute; bottom: 7px; right: 8px;
+  background: rgba(0,0,0,.72); color: white;
+  font-size: 0.62rem; font-weight: 600;
+  padding: 2px 6px; border-radius: 4px;
+}
+.vid-lang {
+  position: absolute; bottom: 7px; left: 8px;
+  background: rgba(255,255,255,.18); backdrop-filter: blur(4px);
+  color: white; font-size: 0.6rem; font-weight: 600;
+  padding: 2px 7px; border-radius: 4px;
+}
+.vid-body { padding: 11px 12px 13px; }
+.vid-title { font-size: 0.82rem; font-weight: 600; color: var(--ink); line-height: 1.35; margin-bottom: 5px; }
+.vid-meta  { font-size: 0.68rem; color: var(--light); display: flex; align-items: center; gap: 5px; }
+.dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+
+/* ━━━━━━━━━━━━━━━━━━━━
+   5. BOTTOM NAV
+━━━━━━━━━━━━━━━━━━━━ */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: white;
+  border-top: 1.5px solid var(--border);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: 8px 0 18px;
+  box-shadow: 0 -4px 16px rgba(0,0,0,.07);
+}
+.bnav {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: transform 0.12s;
+}
+.bnav:active { transform: scale(0.9); }
+.bnav-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; transition: background 0.18s;
+}
+.bnav-label { font-size: 0.64rem; font-weight: 600; color: var(--light); }
+.bnav.active .bnav-label { color: var(--green); }
+.bi-home  { background: var(--green-lt); }
+.bi-video { background: #fff3e0; }
+.bi-img   { background: #e8f0fe; }
+.bi-audio { background: var(--gold-lt); }
+
+/* ━━━━━━━━━━━━━━━━━━━━
+   EARN REWARD SECTION
+━━━━━━━━━━━━━━━━━━━━ */
+.reward-section {
+  background: linear-gradient(160deg, #0f3320 0%, #1e5c38 100%);
+  padding: 28px 20px 32px;
+  position: relative; overflow: hidden;
+}
+.reward-section::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(200,146,10,0.18) 0%, transparent 70%);
+  border-radius: 50%; pointer-events: none;
+}
+.reward-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(200,146,10,0.2);
+  border: 1px solid rgba(200,146,10,0.5);
+  color: var(--gold); border-radius: 50px;
+  padding: 4px 12px; font-size: 0.68rem;
+  font-weight: 700; letter-spacing: 0.8px;
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.reward-title {
+  font-family: 'Lora', serif;
+  font-size: 1.35rem; font-weight: 700;
+  color: white; line-height: 1.25;
+  margin-bottom: 6px;
+}
+.reward-title span { color: var(--gold); }
+.reward-sub {
+  font-size: 0.82rem; color: rgba(255,255,255,0.65);
+  line-height: 1.6; margin-bottom: 22px;
+}
+
+/* How it works — 3 steps */
+.reward-steps {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 22px;
+}
+.rstep {
+  display: flex; align-items: center; gap: 13px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px; padding: 13px 15px;
+}
+.rstep-num {
+  width: 32px; height: 32px; flex-shrink: 0;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  background: rgba(200,146,10,0.18);
+}
+.rstep-body {}
+.rstep-label {
+  font-size: 0.88rem; font-weight: 700; color: white; line-height: 1.2;
+}
+.rstep-desc {
+  font-size: 0.72rem; color: rgba(255,255,255,0.52);
+  margin-top: 2px; line-height: 1.4;
+}
+
+/* Payout info bar */
+.reward-payout {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px; padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.payout-left {}
+.payout-label { font-size: 0.7rem; color: rgba(255,255,255,0.45); font-weight:500; text-transform:uppercase; letter-spacing:0.5px; }
+.payout-amount { font-family: 'Lora', serif; font-size: 1.5rem; color: var(--gold); font-weight: 700; margin-top: 2px; }
+.payout-via { font-size: 0.7rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+.payout-logos { display:flex; gap:6px; flex-wrap:wrap; }
+.payout-logo {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8);
+  border-radius: 8px; padding: 6px 11px;
+  font-size: 0.72rem; font-weight: 700;
+}
+
+/* Partners */
+.reward-partners {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.rp-label { font-size: 0.68rem; color: rgba(255,255,255,0.35); font-weight:500; letter-spacing:0.5px; text-transform:uppercase; }
+.rp-pill {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.6);
+  border-radius: 50px; padding: 3px 10px;
+  font-size: 0.7rem; font-weight: 600;
+}
+
+/* Upload CTA button */
+.reward-cta {
+  width: 100%; background: var(--gold);
+  color: #1a0f00; border: none; border-radius: 50px;
+  padding: 15px 20px; font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 18px rgba(200,146,10,0.4);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.reward-cta:active { transform: scale(0.97); opacity: 0.9; }
+
+/* page padding for sticky bar */
+.page-end { height: 88px; }
+
+/* fade-in on scroll */
+.fade { opacity:0; transform:translateY(14px); transition: opacity .4s ease, transform .4s ease; }
+.fade.on { opacity:1; transform:none; }
+</style>
+</head>
+<body>
+
+<!-- ━━ 1. NAV ━━ -->
+<nav class="nav">
+  <div class="brand">
+    <div class="brand-mark">🌱</div>
+    <div class="brand-name">SoilLife</div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-lang">🌐 English ▾</div>
+    <button class="nav-instructor">👨‍🏫 Instructors</button>
+  </div>
+</nav>
+
+<!-- ━━ 2. HERO ━━ -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">🌍 Free Farming Guides</div>
+    <h1 class="hero-title">Restore Your Land.<br>Grow Your Future.</h1>
+    <p class="hero-sub">Simple guides for healthier soil and stronger crops.</p>
+    <div class="hero-btns">
+      <button class="hbtn hbtn-explore">🌱 Explore</button>
+      <button class="hbtn hbtn-listen">🎧 Listen</button>
+      <button class="hbtn hbtn-watch">📹 Watch</button>
+    </div>
+  </div>
+  <div class="voice-box">
+    <div class="voice-top">
+      <div class="mic">🎙️</div>
+      <div>
+        <div class="voice-label">Describe your problem</div>
+        <div class="voice-hint">Tap and speak your language</div>
+      </div>
+    </div>
+    <div class="voice-langs">
+      <span class="vlang">EN</span>
+      <span class="vlang">FR</span>
+      <span class="vlang">SW</span>
+      <span class="vlang">हि</span>
+      <span class="vlang">+19</span>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ 3. PROBLEM CARDS ━━ -->
+<section class="problems">
+  <div class="sec-row fade">
+    <div>
+      <div class="sec-title">What's your problem?</div>
+      <div class="sec-sub">Tap a card — we'll show you what to do</div>
+    </div>
+    <a class="sec-link">See all →</a>
+  </div>
+
+  <div class="prob-grid">
+    <div class="prob-card p1 fade">
+      <div class="prob-go">→</div>
+      <span class="prob-icon">🌵</span>
+      <div class="prob-name">Dry Cracked Soil</div>
+      <div class="prob-desc">Land too dry, nothing grows</div>
+    </div>
+    <div class="prob-card p2 fade">
+      <div class="prob-go">→</div>
+      <span class="prob-icon">🐛</span>
+      <div class="prob-name">Pest Damage</div>
+      <div class="prob-desc">Insects hurting your crops</div>
+    </div>
+    <div class="prob-card p3 fade">
+      <div class="prob-go">→</div>
+      <span class="prob-icon">🌊</span>
+      <div class="prob-name">Flooded Crops</div>
+      <div class="prob-desc">Too much water in the field</div>
+    </div>
+    <div class="prob-card p4 fade">
+      <div class="prob-go">→</div>
+      <span class="prob-icon">⛰️</span>
+      <div class="prob-name">Soil Erosion</div>
+      <div class="prob-desc">Rain washing away your soil</div>
+    </div>
+    <div class="prob-card p5 fade">
+      <div class="prob-go">→</div>
+      <span class="prob-icon">📉</span>
+      <div class="prob-name">Low Harvest</div>
+      <div class="prob-desc">Less crops than last season</div>
+    </div>
+    <div class="prob-card p6 fade">
+      <div class="prob-go">→</div>
+      <span class="prob-icon">🍂</span>
+      <div class="prob-name">Yellow Leaves</div>
+      <div class="prob-desc">Plants look sick and weak</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ━━ 4. VIDEO GUIDES ━━ -->
+<section class="videos">
+  <div class="sec-row fade">
+    <div>
+      <div class="sec-title">📹 Watch a Guide</div>
+      <div class="sec-sub">Short videos · Real farmers · Real results</div>
+    </div>
+    <a class="sec-link">All videos →</a>
+  </div>
+
+  <div class="vid-scroll">
+    <div class="vid-card fade">
+      <div class="vid-thumb vt1">🌱
+        <div class="vid-play">▶</div>
+        <div class="vid-dur">4:32</div>
+        <div class="vid-lang">Swahili</div>
+      </div>
+      <div class="vid-body">
+        <div class="vid-title">How to Stop Soil Erosion</div>
+        <div class="vid-meta">👁 24k <span class="dot"></span> 4 steps</div>
+      </div>
+    </div>
+
+    <div class="vid-card fade">
+      <div class="vid-thumb vt2">♻️
+        <div class="vid-play">▶</div>
+        <div class="vid-dur">3:15</div>
+        <div class="vid-lang">Hindi</div>
+      </div>
+      <div class="vid-body">
+        <div class="vid-title">Make Free Compost at Home</div>
+        <div class="vid-meta">👁 18k <span class="dot"></span> Zero cost</div>
+      </div>
+    </div>
+
+    <div class="vid-card fade">
+      <div class="vid-thumb vt3">💧
+        <div class="vid-play">▶</div>
+        <div class="vid-dur">5:48</div>
+        <div class="vid-lang">Amharic</div>
+      </div>
+      <div class="vid-body">
+        <div class="vid-title">Save Water During Drought</div>
+        <div class="vid-meta">👁 31k <span class="dot"></span> Most watched</div>
+      </div>
+    </div>
+
+    <div class="vid-card fade">
+      <div class="vid-thumb vt4">🌾
+        <div class="vid-play">▶</div>
+        <div class="vid-dur">6:10</div>
+        <div class="vid-lang">Hausa</div>
+      </div>
+      <div class="vid-body">
+        <div class="vid-title">Better Harvest Next Season</div>
+        <div class="vid-meta">👁 12k <span class="dot"></span> Step by step</div>
+      </div>
+    </div>
+
+    <div class="vid-card fade">
+      <div class="vid-thumb vt5">🐛
+        <div class="vid-play">▶</div>
+        <div class="vid-dur">3:50</div>
+        <div class="vid-lang">Yoruba</div>
+      </div>
+      <div class="vid-body">
+        <div class="vid-title">Natural Pest Control</div>
+        <div class="vid-meta">👁 9k <span class="dot"></span> No chemicals</div>
+      </div>
+    </div>
+
+    <div class="vid-card fade">
+      <div class="vid-thumb vt6">🌳
+        <div class="vid-play">▶</div>
+        <div class="vid-dur">7:20</div>
+        <div class="vid-lang">French</div>
+      </div>
+      <div class="vid-body">
+        <div class="vid-title">Plant Trees, Save Your Farm</div>
+        <div class="vid-meta">👁 15k <span class="dot"></span> Long term</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ━━ EARN REWARDS ━━ -->
+<section class="reward-section">
+
+  <div class="reward-badge fade">💰 Earn Real Money</div>
+  <h2 class="reward-title fade">Prove your progress.<br><span>Get paid by M-Pesa.</span></h2>
+  <p class="reward-sub fade">Apply what you learned, take a photo of your crops or soil, and earn a cash reward — verified by our NGO partners.</p>
+
+  <div class="reward-steps">
+    <div class="rstep fade">
+      <div class="rstep-num">📹</div>
+      <div class="rstep-body">
+        <div class="rstep-label">Watch a farming guide</div>
+        <div class="rstep-desc">Choose a problem, watch the video guide in your language</div>
+      </div>
+    </div>
+    <div class="rstep fade">
+      <div class="rstep-num">🌱</div>
+      <div class="rstep-body">
+        <div class="rstep-label">Apply it on your farm</div>
+        <div class="rstep-desc">Try the method — mulching, composting, cover crops, etc.</div>
+      </div>
+    </div>
+    <div class="rstep fade">
+      <div class="rstep-num">📸</div>
+      <div class="rstep-body">
+        <div class="rstep-label">Upload a before &amp; after photo</div>
+        <div class="rstep-desc">Show your soil or crop improvement — one photo is enough</div>
+      </div>
+    </div>
+    <div class="rstep fade">
+      <div class="rstep-num">✅</div>
+      <div class="rstep-body">
+        <div class="rstep-label">NGO partner reviews &amp; approves</div>
+        <div class="rstep-desc">FAO or CGIAR verifies your photo within 3–5 days</div>
+      </div>
+    </div>
+    <div class="rstep fade">
+      <div class="rstep-num">💵</div>
+      <div class="rstep-body">
+        <div class="rstep-label">Cash sent to your phone</div>
+        <div class="rstep-desc">Money arrives via M-Pesa, MTN Mobile Money, or Orange Money</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reward-payout fade">
+    <div class="payout-left">
+      <div class="payout-label">Earn up to</div>
+      <div class="payout-amount">$15 USD</div>
+      <div class="payout-via">per approved submission</div>
+    </div>
+    <div class="payout-logos">
+      <div class="payout-logo">M-Pesa</div>
+      <div class="payout-logo">MTN</div>
+      <div class="payout-logo">Orange</div>
+    </div>
+  </div>
+
+  <button class="reward-cta fade">📸 Upload Your Photo — Start Earning</button>
+
+  <div class="reward-partners fade">
+    <span class="rp-label">Funded by</span>
+    <span class="rp-pill">FAO</span>
+    <span class="rp-pill">CGIAR</span>
+    <span class="rp-pill">USAID</span>
+    <span class="rp-pill">IFAD</span>
+  </div>
+
+</section>
+
+<div class="page-end"></div>
+
+<!-- ━━ 5. BOTTOM NAV ━━ -->
+<nav class="bottom-nav">
+  <button class="bnav active">
+    <div class="bnav-icon bi-home">🏠</div>
+    <span class="bnav-label">Home</span>
+  </button>
+  <button class="bnav">
+    <div class="bnav-icon bi-video">📹</div>
+    <span class="bnav-label">Video</span>
+  </button>
+  <button class="bnav">
+    <div class="bnav-icon bi-img">🖼️</div>
+    <span class="bnav-label">Image</span>
+  </button>
+  <button class="bnav">
+    <div class="bnav-icon bi-audio">🎧</div>
+    <span class="bnav-label">Listen</span>
+  </button>
+</nav>
+
+<script>
+// Scroll fade-in
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const group = Array.from(e.target.parentElement?.querySelectorAll('.fade') || []);
+      const idx = group.indexOf(e.target);
+      setTimeout(() => e.target.classList.add('on'), idx * 55);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+// Bottom nav
+document.querySelectorAll('.bnav').forEach(btn => {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.bnav').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Language cycle
+document.querySelector('.nav-lang').addEventListener('click', function () {
+  const langs = ['🌐 English ▾','🌐 Français ▾','🌐 Kiswahili ▾','🌐 हिन्दी ▾','🌐 አማርኛ ▾'];
+  const i = langs.indexOf(this.textContent);
+  this.textContent = langs[(i + 1) % langs.length];
+});
+</script>
+</body>
+</html>
